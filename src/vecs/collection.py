@@ -315,7 +315,7 @@ class Collection:
         return self
 
     def upsert(
-        self, records: Iterable[Tuple[str, Any, Metadata]], skip_adapter: bool = False
+        self, records: Iterable[Tuple[str, Any, Any, Metadata]], skip_adapter: bool = False
     ) -> None:
         """
         Inserts or updates *vectors* records in the collection.
@@ -528,7 +528,7 @@ class Collection:
 
         distance_clause = distance_lambda(self.table.c.vec)(vec)
 
-        cols = [self.table.c.id]
+        cols = [self.table.c.paragraph]
 
         if include_value:
             cols.append(distance_clause)
@@ -961,6 +961,7 @@ def build_table(name: str, meta: MetaData, dimension: int) -> Table:
         name,
         meta,
         Column("id", String, primary_key=True),
+        Column("paragraph", String, nullable=True),  # Additional column for storing a large chunk of text
         Column("vec", Vector(dimension), nullable=False),
         Column(
             "metadata",

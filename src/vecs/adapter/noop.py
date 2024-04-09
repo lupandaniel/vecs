@@ -51,5 +51,5 @@ class NoOp(AdapterStep):
         Yields:
             Tuple[str, Any, Dict]: The input record.
         """
-        for id, media, metadata in records:
-            yield (id, media, metadata or {})
+        for id, paragraph, media, metadata in records:
+            yield (id, paragraph, media, metadata or {})
